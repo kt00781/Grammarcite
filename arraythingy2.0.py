@@ -1,24 +1,29 @@
 from spellchecker import SpellChecker
 
-input("Hello, How was your day?")
-
-print("No, One cares.")
+#input("Hello, How was your day?")
+#print("No, One cares.")
 file_r = input("Input name of txt file: ")
 
 fr = open('{}.txt'.format(file_r))
 text = fr.read()
 fr.close
-Array = text.split(" ")
+Array = text.splitlines()
 spell = SpellChecker()
 change = []
+changeline = []
+separator1 = " "
+separator2 = '\n'
 
-for word in Array:
-    change.append(spell.correction(word))
-separator = " "
-print(separator.join(change))
+for line in Array:
+    Array2 = line.split()
+    for word in Array2:
+        change.append(spell.correction(word))
+    changeline.append(separator1.join(change))
+    change.clear()
+print(separator2.join(changeline))
 
 file_w = input("Input name of new file: ")
 
 fw = open('{}.txt'.format(file_w),'w')
-fw.write(separator.join(change))
+fw.write(separator2.join(changeline))
 fw.close
