@@ -1,6 +1,6 @@
 from spellchecker import SpellChecker
 
-fr = open('test.txt')
+fr = open('test2.txt')
 text = fr.read()
 fr.close
 Array = text.split(" ")
@@ -21,6 +21,6 @@ for word in Array:
 separator = " "
 print(separator.join(change))
 
-fw = open('fixedtest.txt','w')
+fw = open('fixedtest2.txt','w')
 fw.write(separator.join(change))
 fw.close
