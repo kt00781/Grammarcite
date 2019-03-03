@@ -1,7 +1,7 @@
 from spellchecker import SpellChecker
 
 #input("Hello, How was your day?")
-#print("No, One cares.")
+#print("No one cares.")
 file_r = input("Input name of txt file: ")
 
 fr = open('{}.txt'.format(file_r))
