@@ -6,9 +6,8 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.db import get_db
 
-from spellchecker import SpellChecker
-
 bp = Blueprint('blog', __name__)
+
 
 @bp.route('/')
 def index():
@@ -20,6 +19,7 @@ def index():
     ).fetchall()
     return render_template('blog/index.html', posts=posts)
 
+
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
@@ -27,26 +27,9 @@ def create():
         title = request.form['title']
         body = request.form['body']
         error = None
-        ignore = request.form['ignore']
-        
+
         if not title:
             error = 'Title is required.'
-
-        if ignore == False:
-            Array = body.splitlines()
-            spell = SpellChecker()
-            change = []
-            changeline = []
-            separator1 = " "
-            separator2 = '\n'
-
-            for line in Array:
-                Array2 = line.split()
-                for word in Array2:
-                    change.append(spell.correction(word))
-                changeline.append(separator1.join(change))
-                change.clear()
-            body = separator2.join(changeline)
 
         if error is not None:
             flash(error)
@@ -58,10 +41,10 @@ def create():
                 (title, body, g.user['id'])
             )
             db.commit()
-        
             return redirect(url_for('blog.index'))
 
     return render_template('blog/create.html')
+
 
 def get_post(id, check_author=True):
     post = get_db().execute(
@@ -79,6 +62,7 @@ def get_post(id, check_author=True):
 
     return post
 
+
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
 def update(id):
@@ -88,21 +72,6 @@ def update(id):
         title = request.form['title']
         body = request.form['body']
         error = None
-
-        Array = body.splitlines()
-        spell = SpellChecker()
-        change = []
-        changeline = []
-        separator1 = " "
-        separator2 = '\n'
-
-        for line in Array:
-            Array2 = line.split()
-            for word in Array2:
-                change.append(spell.correction(word))
-            changeline.append(separator1.join(change))
-            change.clear()
-        body = separator2.join(changeline)
 
         if not title:
             error = 'Title is required.'
@@ -120,6 +89,7 @@ def update(id):
             return redirect(url_for('blog.index'))
 
     return render_template('blog/update.html', post=post)
+
 
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
